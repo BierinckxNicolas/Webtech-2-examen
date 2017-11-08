@@ -13,26 +13,29 @@ angular.module('movieApp', ['ngRoute'])
 
 	
 	
-	.controller('homeCtrl', function($scope, movieSrv) {
+	.controller('homeCtrl', function($scope, movieSrv, saveSrv) {
 		
 	    	$('#searchButton').on('click', function (e) {
 
 	    		$scope.movies = '';
+	    		var arr = ';'
 
-	    		var name = $('#nameText').val();
+	    		var name = $('#nameText').val().toLowerCase();
 	    		
 	    		movieSrv.getMovies(name).then(function(data){
 	    			
-	    			var arr = data.data[0].filmography.actor.map(function(a, b){
+	    			arr = data.data[0].filmography.actor.map(function(a, b){
 	    				   return a.title;
 	    				});
-	    				$scope.movies = arr;
-	    			
-	    			//$scope.movies = data.data[0].filmography.actor;				
-	    		
+	    				$scope.movies = arr;	
 	    		});
-	    	});
-    })
+	    				saveSrv.setObject(name, arr);
+
+    			});
+	    		
+	    	})
+	    	
+ 
    
     .service('movieSrv', function($http, $q) {
     		this.getMovies = function(name) {
@@ -48,11 +51,13 @@ angular.module('movieApp', ['ngRoute'])
 	    			
 	    			return q.promise;
 	    		};
-    })
+    	})
     
    
     
     .service('saveSrv', function($window, $http){
+    	
+    	
 		  this.setObject = function(key, value){
 			  $window.localStorage[key] = JSON.stringify(value);
 			  //Save in CouchDB
