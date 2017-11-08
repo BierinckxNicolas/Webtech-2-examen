@@ -57,14 +57,34 @@ angular.module('movieApp', ['ngRoute'])
     
     .service('saveSrv', function($window, $http){
     	
-    	
 		  this.setObject = function(key, value){
-			  $window.localStorage[key] = JSON.stringify(value);
-			  //Save in CouchDB
-			  //$http.put('../../' + key, value);
-		  };
-		  
-		  this.getObject = function(key){
-			  return JSON.parse($window.localStorage[key] || '{}');
-		  };
-	});
+			 $window.localStorage[key] = JSON.stringify(value);
+			  
+			/* var res = key.split(" ");
+			 var firstName = res[0];
+			 var lastName = res[1];
+			  
+			  $.ajax({
+					type:			'PUT',
+					url:				'../../' + lastName + '_' + firstName,
+					data:			json,
+					contentType: 	'application/json',
+					async:			true,
+					success:		function(data){
+						buildOutput(ALL_DOCS, 0, '');
+					},
+					error:		function(XMLHttpRequest, textStatus, errorThrown){
+						console.log(errorThrown); 
+					}
+				});*/
+			 
+		
+
+					  $http.put('../../' + key, value);
+				  };
+				  
+				  this.getObject = function(key){
+					  return JSON.parse($window.localStorage[key] || '{}');
+				  };
+			});
+			  

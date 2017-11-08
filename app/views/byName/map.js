@@ -1,5 +1,5 @@
 function(doc) {
-  if(doc.type === 'Actor'){
+  if(doc.type === 'actor'){
 	  emit(doc.movies, doc);
   }
 };
